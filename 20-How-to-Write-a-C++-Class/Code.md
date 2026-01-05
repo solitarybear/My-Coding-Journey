@@ -1,0 +1,217 @@
+# 1
+>main.cpp
+#include <iostream>
+
+int main()
+{
+    std::cin.get();
+}
+
+# 2 
+> main.cpp
+#include <iostream>
+
+class Log
+{
+public:                                             // public variable 
+        const int LogLevelError = 0;
+        const int LogLevelWarning = 1;
+        const int LogLevelInfo    = 2;
+private:
+        int m_LogLevel = LogLevelInfo;                             //this m_ will tells us that m_LogLevel is class member variable ,that is private.
+public:                                             //public methods
+        void SetLevel(int level)
+        {
+            m_LogLevel = level;
+
+        }
+
+       void Error(const char* message)
+       {
+        if (m_LogLevel >= LogLevelError)
+        std::cout<< "[ERROR]: " <<message << std::endl;
+       }
+
+       void Warn(const char* message)
+       {
+        if (m_LogLevel >= LogLevelWarning)
+        std::cout<< "[WARNING] :"<< message << std::endl;
+       }
+
+       void Info(const char* message)
+       {
+        if (m_LogLevel >= LogLevelInfo)
+        std::cout<< "[INFO] : " << message << std::endl;
+       }
+
+};
+
+int main()
+{
+    Log log;
+    log.SetLevel(log.LogLevelWarning);
+    log.Warn("SolitaryBear");
+    std::cin.get();
+}
+
+* prints [WARNING] SolitaryBear
+
+
+>main.cpp
+#include <iostream>
+
+class Log
+{
+public:                                             // public variable 
+        const int LogLevelError = 0;
+        const int LogLevelWarning = 1;
+        const int LogLevelInfo    = 2;
+private:
+        int m_LogLevel = LogLevelInfo;                             //this m_ will tells us that m_LogLevel is class member variable ,that is private.
+public:                                             //public methods
+        void SetLevel(int level)
+        {
+            m_LogLevel = level;
+
+        }
+
+       void Error(const char* message)
+       {
+        if (m_LogLevel >= LogLevelError)
+        std::cout<< "[ERROR]: " <<message << std::endl;
+       }
+
+       void Warn(const char* message)
+       {
+        if (m_LogLevel >= LogLevelWarning)
+        std::cout<< "[WARNING] :"<< message << std::endl;
+       }
+
+       void Info(const char* message)
+       {
+        if (m_LogLevel >= LogLevelInfo)
+        std::cout<< "[INFO] : " << message << std::endl;
+       }
+
+};
+
+int main()
+{
+    Log log;
+    log.SetLevel(log.LogLevelWarning);
+    log.Warn("SolitaryBear");
+    log.Error("TheCherno");
+    log.Info("CodeIsRunning");
+    std::cin.get();
+}
+
+
+* prints 
+[WARNING] SolitaryBear
+[ERROR] TheCherno
+
+>main.cpp
+#include <iostream>
+
+class Log
+{
+public:                                             // public variable 
+        const int LogLevelError = 0;
+        const int LogLevelWarning = 1;
+        const int LogLevelInfo    = 2;
+private:
+        int m_LogLevel = LogLevelInfo;                             //this m_ will tells us that m_LogLevel is class member variable ,that is private.
+public:                                             //public methods
+        void SetLevel(int level)
+        {
+            m_LogLevel = level;
+
+        }
+
+       void Error(const char* message)
+       {
+        if (m_LogLevel >= LogLevelError)
+        std::cout<< "[ERROR]: " <<message << std::endl;
+       }
+
+       void Warn(const char* message)
+       {
+        if (m_LogLevel >= LogLevelWarning)
+        std::cout<< "[WARNING] :"<< message << std::endl;
+       }
+
+       void Info(const char* message)
+       {
+        if (m_LogLevel >= LogLevelInfo)
+        std::cout<< "[INFO] : " << message << std::endl;
+       }
+
+};
+
+int main()
+{
+    Log log;
+    
+    log.Warn("SolitaryBear");
+    log.Error("TheCherno");
+    log.Info("CodeIsRunning");
+    std::cin.get();
+}
+
+
+* prints 
+[WARNING] :SolitaryBear
+[ERROR] :TheCherno
+[INFO] :CodeIsRunning
+
+>main.cpp
+#include <iostream>
+
+class Log
+{
+public:                                             // public variable 
+        const int LogLevelError = 0;
+        const int LogLevelWarning = 1;
+        const int LogLevelInfo    = 2;
+private:
+        int m_LogLevel = LogLevelInfo;                             //this m_ will tells us that m_LogLevel is class member variable ,that is private.
+public:                                             //public methods
+        void SetLevel(int level)
+        {
+            m_LogLevel = level;
+
+        }
+
+       void Error(const char* message)
+       {
+        if (m_LogLevel >= LogLevelError)
+        std::cout<< "[ERROR]: " <<message << std::endl;
+       }
+
+       void Warn(const char* message)
+       {
+        if (m_LogLevel >= LogLevelWarning)
+        std::cout<< "[WARNING] :"<< message << std::endl;
+       }
+
+       void Info(const char* message)
+       {
+        if (m_LogLevel >= LogLevelInfo)
+        std::cout<< "[INFO] : " << message << std::endl;
+       }
+
+};
+
+int main()
+{
+    Log log;
+    log.SetLevel(log.LogLevelError);
+    log.Warn("SolitaryBear");
+    log.Error("TheCherno");
+    log.Info("CodeIsRunning");
+    std::cin.get();
+}
+
+
+* prints 
+[ERROR] :TheCherno
