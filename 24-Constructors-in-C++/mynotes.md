@@ -1,0 +1,1 @@
+* Constructors of course will not run if you do not instantiate an object so if you just use static methods from a class it won't run 
