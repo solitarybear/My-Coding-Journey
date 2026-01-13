@@ -1,0 +1,3 @@
+There were no subtiles in this lecture so notes here for today ---
+
+You can watch this video Completely-- provides better undrstanding than notes...... 
