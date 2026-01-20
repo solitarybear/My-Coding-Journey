@@ -23,3 +23,173 @@ our just operates work in general room but they're
 just functions and remember just because you can overload an operator and make your code look weird don't because it's going to make it harder for people to read is probably going to annoy you yourself and it's just it's just bad just bad code style don't do it this let's shift operator that we overloaded just kind of like the two string function that you commonly override in languages such as Java or C sharp and so that's one of the great things about C++ you can kind of have operators instead of functions another great
 
 example which c-sharp does support but Java doesn't is the equals equals operator in Java you have to write an equals override for every class if you want to be able to compare it and then later on you have to write equals everywhere so compare result one result - 
+
+
+
+# Explaination to how operator overloading fuction is called----->IMP.
+Good question — this is **exactly where many people get confused** with operator overloading.
+
+Let’s go **slow, precise, and conceptual**.
+
+---
+
+## The code
+
+```cpp
+Vector2 operator+(const Vector2& tatti) const
+{
+    return Vector2(x + tatti.x, y + tatti.y);
+}
+```
+
+This is a **class member function** that overloads `+`.
+
+---
+
+## 1️⃣ How many parameters does this function REALLY take?
+
+👉 **Two operands**, but **only ONE is written**.
+
+Why?
+
+Because **one operand is implicit**.
+
+---
+
+## 2️⃣ The hidden parameter: `this`
+
+Since this is a **member function**, the compiler secretly rewrites it like this:
+
+```cpp
+Vector2 operator+(const Vector2* this, const Vector2& tatti)
+```
+
+So effectively:
+
+* **Left operand** → `*this` (implicit)
+* **Right operand** → `tatti` (explicit parameter)
+
+---
+
+## 3️⃣ How it is called (important)
+
+When you write:
+
+```cpp
+Vector2 a, b;
+Vector2 c = a + b;
+```
+
+The compiler turns it into:
+
+```cpp
+Vector2 c = a.operator+(b);
+```
+
+So:
+
+* `a` → `this`
+* `b` → `tatti`
+
+---
+
+## 4️⃣ Why only ONE parameter is written
+
+Rule:
+
+> **Binary operators implemented as member functions take ONE parameter.**
+
+Because:
+
+* left operand = object calling the function (`this`)
+* right operand = function parameter
+
+---
+
+## 5️⃣ What does `const Vector2& tatti` mean?
+
+```cpp
+const Vector2& tatti
+```
+
+Means:
+
+* reference → no copy
+* const → cannot modify `tatti`
+* efficient and safe
+
+This is **correct and standard practice**.
+
+---
+
+## 6️⃣ What does the `const` at the END mean?
+
+```cpp
+operator+(...) const
+```
+
+This applies to `this`.
+
+It means:
+
+> “This function will NOT modify the left-hand operand.”
+
+So inside the function:
+
+* `this` is treated as `const Vector2*`
+* You cannot change `x` or `y`
+
+Without this `const`, you could not add **const Vector2** objects.
+
+---
+
+## 7️⃣ Why return a new `Vector2`
+
+```cpp
+return Vector2(x + tatti.x, y + tatti.y);
+```
+
+Because:
+
+* `+` does NOT modify operands
+* It produces a **new value**
+* Just like `int c = a + b;`
+
+---
+
+## 8️⃣ If this were NOT a member function
+
+Free-function version:
+
+```cpp
+Vector2 operator+(const Vector2& a, const Vector2& b)
+{
+    return Vector2(a.x + b.x, a.y + b.y);
+}
+```
+
+Here:
+
+* BOTH operands are explicit parameters
+* No `this`
+
+---
+
+## 🔒 Mental model (lock this in)
+
+> For a member `operator+`:
+>
+> * left operand = `this`
+> * right operand = function parameter
+> * total operands = 2, parameters written = 1
+
+---
+
+## One-line takeaway 🔒
+
+
+> This member `operator+` takes one explicit parameter because the left operand is passed implicitly as `this`.
+
+
+# 
+
