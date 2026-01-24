@@ -163,8 +163,11 @@ struct Vector2
 
     Vector2 Add (const Vector2& other) const  
     {
-        //return *this + other;      //this would kinda easy case
-        return operator+(other);     //this is the alternate way to return 
+        //return *this + other;      //this would kinda easy case 
+        
+        //we are dereferencing 'this' beacause this is a const pointer to the Vector2 in this Entity so to make it as Vector2 we are dereferencing 'this'
+        
+        return operator+(other);     //this is the alternate way to return //addressing this operator+ as a function  
     }
 
     Vector2 operator+ (const Vector2& other) const
@@ -251,6 +254,8 @@ int main()
 
 
 # 7 left shift kinda operator 
+the left shift kind of operator that we use with std::cout 
+
 let say we want to print the Vector2 result2 in the console 
 >main.cpp
 #include <iostream>
@@ -303,11 +308,23 @@ int main()
     std::cin.get();
 }
 
+so surprised
 
+look now that we've got this vector two we want to actually print it to the console std::cout as you probably would have noticed has this kind of shift left operator (<<) which takes in various types, at the left side we've got the cout class and of the right side we've got some kind of data types so we'll type and result2 which is that Vector(Vector2) and then we'll we were just able to do this
 
 * we can't
 
-do this because there is no overload for this operator which takes in an output stream which is what CRTs and then an actual Vector2 but we can add that
+do this because there is no overload for this operator which takes in an output stream which is what cout is and then an actual Vector2 
+
+code we are talking about 
+
+std::cout << result << std::endl; 
+
+
+
+
+
+but we can add that
 
 
 
@@ -380,6 +397,49 @@ finally we need to return a reference to the stream which is just this stream so
 
 
 > ok now this code compiles 
+
+
+>What is std::ostream
+std::ostream is the base class for all output streams in C++.
+It represents:
+
+something you can write output to
+
+Examples of std::ostream objects
+Object	Meaning
+std::cout           	standard output (terminal)
+std::cerr	            error output
+std::ofstream	        file output
+std::ostringstream	    string output
+
+All of these inherit from std::ostream.
+
+So by using std::ostream&, your function works for all of them, not just cout
+
+>Why the parameter is std::ostream& os
+std::ostream& stream
+
+Means:
+stream is a reference → no copying
+refers to the output stream being used
+
+This allows:
+std::cout << v;
+file << v;
+
+Both work with the same function.
+
+>Why we return std::ostream&
+return os;
+
+This is CRITICAL.
+It enables chaining:
+std::cout << v << std::endl;
+
+Which becomes:
+operator<<(operator<<(std::cout, v), std::endl);
+
+If you didn’t return os, this would not compile.
 
 
 

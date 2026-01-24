@@ -188,6 +188,7 @@ public:
     Entity(int x, int y)
     {       
         (*this).x = x; //but obvioosly that looks clean with the arrow so we use that 
+        //e->x is the same as (*e).x //This is a language rule, not a coincidence.
     }
 };
 
@@ -239,9 +240,12 @@ public:
         this->y = y;
     }
 
-    int GetX() const //marking this as const is pretty much common
+    int GetX() const //marking this as const is pretty much common //means we are not goint to change member of this class 
     {
         Entity* e = this; //in  a const function 'this' isn't actually equal to an Entity*
+        //because Entity* e means e is non-const pointer to an Entity and copy of 'this' (const pointer to Entity)
+        //that means we can change the value of the address e pointing to which is not allowed as member function marked as const
+        
         return x;
     }
 };
@@ -305,12 +309,12 @@ public:
         this->x = x; //but obvioosly that looks clean with the arrow so we use that 
         this->y = y;
 
-        PrintEntity()
+        PrintEntity(); //what should we pass if we want to call the function outside the class with the current instance ?? answer is 'this'  
     }
 
     int GetX() const //marking this as const is pretty much common
     {
-        const Entity* e = this; //this' is equal to a const Entity*
+        const Entity* e = this; //'this' is equal to a const Entity*
         return x;
     }
 };
@@ -330,7 +334,59 @@ int main()
 
 case for this is if we maybe wanted to call a function that was outside of this entity class so it wasn't a method but we wanted to call a function outside this class from within this class that took entity as a parameter so as an example maybe we had a print entity function and because of the declaration water here I'm actually going to have to declare this up here and then define it over here so we have
 
-a function that might do some cool printing kind of stuff and we want to be able to cooperate to entity from inside this class so it may be like this I want to pass in the current instance of this entity class into this function how do I do that that's where this comes in I can just pass him this and that's going to
+a function that might do some cool printing kind of stuff and we want to be able to cooperate to entity from inside this class so it may be like this
+I want to pass in the current instance of this entity class into this function how do I do that that's where this comes in 
+I can just pass him 'this' and that's going to
+
+
+>why did cherno wrote the declaration above the class and the definition below the class 
+The key rule (this is the reason)
+
+In C++, a function must be declared before it is used.
+
+Not defined — declared.
+
+>Why only the declaration is enough
+
+This line:
+
+void PrintEntity(Entity* e);
+
+
+Tells the compiler:
+
+the function exists
+
+its name
+
+its parameter types
+
+its return type
+
+That’s all the compiler needs to allow the call.
+
+The actual body can come later.
+
+>Why definition is written AFTER the class
+
+Because:
+
+The function uses Entity*
+
+The compiler needs to know what Entity is
+
+That requires the class to be fully defined
+
+So this would be impossible:
+
+void PrintEntity(Entity* e)
+{
+    // uses Entity members
+}
+
+
+before the class definition.
+
 
 
 # 11 what we can do in the #10 is 
@@ -420,6 +476,13 @@ int main()
 }
 
 
+* the changes are 
+we changed the parameter of the function PrintEntity from Entity*  to const Entity& 
+that means not we are taking an Entity Object inside the function 
+
+so for calling the function outside the class within the class with the current instance then we we want to call we the current object that we can do by writing 
+PrintEntity(*this);
+
 
 
 # 13 
@@ -465,9 +528,23 @@ int main()
     std::cin.get();
 }
 
+* the delete keyword we commented 
+>because this is a pointer to the current class we can also do some pretty bizarre things such as called delete this I've seen this code a handful of times in very very specialized cases my recommendation would be of course to avoid doing this 
 
->ecause this is a pointer to the current class we can also do some pretty bizarre things such as called delete this I've seen this code a handful of times in very very specialized cases my recommendation would be of course to avoid doing this because you're freeing memory from a member function and if you decide to ever access any member data after you call delete this you're going to explode because the memory had been freed so don't
+because you're freeing memory from a member function and if you decide to ever access any member data after you call delete this you're going to explode because the memory had been freed so don't
 
-don't don't typically write code like this just make this is C++ there's kind of a there's a place for pretty much everything but but darn it maybe no I don't anyway
+don't don't typically write code like this just make this is C++ there's kind of a there's a place for pretty much everything but but don't, 
+maybe 
+no don't 
+
+---------------------------------------------------------------------------------- 
+
+* now cherno is stating we the new two lines is simple 
+in non const method 
+*this - - - - is - - - - - -  Entity& e
+
+and in const method 
+*this - - - - is - - - - - -  const Entity& e 
+
 #
 

@@ -191,5 +191,60 @@ Here:
 > This member `operator+` takes one explicit parameter because the left operand is passed implicitly as `this`.
 
 
-# 
+# operator overloading based on operand 
 
+* int + int 
+operands are int and int
+compiler uses the built-in integer addition
+NO operator overloading involved
+This + is part of the C++ language itself.
+
+* Vector2 + Vector2
+operands are Vector2 and Vector2
+compiler cannot use built-in +
+so it looks for an overloaded operator+
+
+
+* Vector2 + int
+operands are Vector2 and int
+compiler cannot use built-in +
+so it looks for an overloaded operator+
+
+* int + Vector2
+operands are int and Vector2
+compiler cannot use built-in +
+so it looks for an overloaded operator+
+
+>If at least one operand is a user-defined type
+Examples:
+
+Vector2 + Vector2
+Vector2 + int
+int + Vector2
+
+
+➡️ Compiler looks for:
+
+member operator+
+non-member operator+
+friend operator+
+
+➡️ If found → use it
+➡️ If not found → compile-time error
+
+
+
+>How the compiler chooses (internally)
+
+When it sees:
+5 + v
+
+It looks for:
+* operator+(int, Vector2)
+
+
+When it sees:
+v + 5
+
+It looks for:
+* Vector2::operator+(int)
